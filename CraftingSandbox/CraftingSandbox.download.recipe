@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>Description</key>
+	<string>Downloads the latest Crafting Sandbox CLI tool from https://crafting.dev
+
+For Intel set DOWNLOAD_ARCH to "amd64" (default)
+
+For Apple Silicon set DOWNLOAD_ARCH to "arm64"
+
+Defaults to downloading the macOS version, the custom provider supports downloading
+the Linux version as well.</string>
+	<key>Identifier</key>
+	<string>com.github.jholt13.download.CraftingSandbox</string>
+	<key>Input</key>
+	<dict>
+		<key>DOWNLOAD_ARCH</key>
+		<string>amd64</string>
+		<key>OS_TYPE</key>
+		<string>darwin</string>
+		<key>NAME</key>
+		<string>cs</string>
+	</dict>
+	<key>Process</key>
+	<array>
+		<dict>
+			<key>Arguments</key>
+			<dict>
+				<key>download_arch</key>
+				<string>%DOWNLOAD_ARCH%</string>
+				<key>os_type</key>
+				<string>%OS_TYPE%</string>
+			</dict>
+			<key>Processor</key>
+			<string>CraftingSandboxURLProvider</string>
+		</dict>
+		<dict>
+			<key>Arguments</key>
+			<dict>
+				<key>filename</key>
+				<string>cs-%OS_TYPE%-%DOWNLOAD_ARCH%.tar.gz</string>
+				<key>request_headers</key>
+				<dict>
+					<key>accept</key>
+					<string>application/json</string>
+				</dict>
+				<key>url</key>
+				<string>%download_url%</string>
+			</dict>
+			<key>Processor</key>
+			<string>URLDownloader</string>
+		</dict>
+		<dict>
+			<key>Processor</key>
+			<string>EndOfCheckPhase</string>
+		</dict>
+		<dict>
+            <key>Processor</key>
+            <string>Unarchiver</string>
+            <key>Arguments</key>
+            <dict>
+                <key>archive_path</key>
+                <string>%pathname%</string>
+                <key>destination_path</key>
+                <string>%RECIPE_CACHE_DIR%/%NAME%</string>
+                <key>purge_destination</key>
+                <true/>
+            </dict>
+        </dict>
+	</array>
+</dict>
+</plist>

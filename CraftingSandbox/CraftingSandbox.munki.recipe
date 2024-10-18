@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+    <key>Description</key>
+    <string>Downloads the latest Crafting Sandbox CLI tool from https://crafting.dev and imports it to Munki.
+
+For Intel set DOWNLOAD_ARCH to "amd64" and SUPPORTED_ARCH to "x86_64" (default)
+
+For Apple Silicon set both DOWNLOAD_ARCH and SUPPORTED_ARCH to "arm64"
+
+Defaults to downloading the macOS version, the custom provider supports downloading
+the Linux version as well.</string>
+    <key>Identifier</key>
+    <string>com.github.jholt13.munki.CraftingSandbox</string>
+    <key>Input</key>
+    <dict>
+        <key>NAME</key>
+        <string>cs</string>
+        <key>MUNKI_REPO_SUBDIR</key>
+        <string>apps/Crafting Sandbox</string>
+        <key>DOWNLOAD_ARCH</key>
+		<string>amd64</string>
+        <key>SUPPORTED_ARCH</key>
+		<string>x86_64</string>
+        <key>pkginfo</key>
+        <dict>
+            <key>catalogs</key>
+            <array>
+                <string>testing</string>
+            </array>
+            <key>description</key>
+            <string>On-demand dev env for high velocity tech start-up teams</string>
+            <key>display_name</key>
+            <string>Crafting Sandbox</string>
+            <key>name</key>
+            <string>%NAME%</string>
+            <key>supported_architectures</key>
+            <array>
+                <string>%SUPPORTED_ARCH%</string>
+            </array>
+            <key>unattended_install</key>
+            <true/>
+        </dict>
+    </dict>
+    <key>MinimumVersion</key>
+    <string>0.2.0</string>
+    <key>ParentRecipe</key>
+    <string>com.github.jholt13.pkg.CraftingSandbox</string>
+    <key>Process</key>
+	<array>
+		<dict>
+			<key>Arguments</key>
+			<dict>
+				<key>faux_root</key>
+				<string>%RECIPE_CACHE_DIR%/pkgroot</string>
+				<key>installs_item_paths</key>
+				<array>
+					<string>/usr/local/bin/cs</string>
+				</array>
+			</dict>
+			<key>Processor</key>
+			<string>MunkiInstallsItemsCreator</string>
+		</dict>
+		<dict>
+			<key>Processor</key>
+			<string>MunkiPkginfoMerger</string>
+		</dict>
+		<dict>
+			<key>Arguments</key>
+			<dict>
+				<key>repo_subdirectory</key>
+				<string>%MUNKI_REPO_SUBDIR%</string>
+			</dict>
+			<key>Processor</key>
+			<string>MunkiImporter</string>
+		</dict>
+	</array>
+</dict>
+</plist>
