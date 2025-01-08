@@ -97,11 +97,11 @@
 						</dict>
 					</array>
 					<key>id</key>
-					<string>com.faire.it.cpe.%NAME%</string>
+					<string>dev.crafting.%NAME%</string>
 					<key>options</key>
 					<string>purge_ds_store</string>
 					<key>pkgname</key>
-					<string>%NAME%-%version%</string>
+					<string>%NAME%-%DOWNLOAD_ARCH%-%version%</string>
 					<key>pkgroot</key>
 					<string>%RECIPE_CACHE_DIR%/pkgroot</string>
 					<key>version</key>
